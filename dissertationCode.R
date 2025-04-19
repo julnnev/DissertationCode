@@ -718,38 +718,22 @@ test_set$Total_VOC <- test_set$VVOC +  test_set$VOC +  test_set$BTEX
 predicted6d <- predict.gam(model6d, test_set, type="response")
 rmse_6d <- sqrt(mean((test_set$CPAH - predicted6d)^2))
 
+# plotting smooth functions
+png("model3a_smooth.png", width = 2000, height = 1500, res = 300)
+plot(model3a,se=FALSE)
+dev.off()
 
-
-
-
-
-#2. Generalized Linear Models (GLMs) - If a Gamma or Inverse Gaussian distribution is used for modeling a continuous response, under-dispersion means that the estimated variance is smaller than predicted by the model.
-# This can lead to underestimated standard errors, making confidence intervals too narrow and p-values artificially small.
-simulationOutput_model3a <- simulateResiduals(fittedModel = model3a, plot = T, n=4000) # if n is not set, outer newton does not converge error
-
-# This function tests if the number of observations outside the simulatio envelope are larger or smaller than expected
-testOutliers(simulationOutput_model3a)
-
-# This function performs simulation-based tests for over/underdispersion.
-testDispersion(simulationOutput_model3a)
-
-# The function fits quantile regressions (via package qgam) on the residuals, and compares their location to the expected location (because of the uniform distributionm, the expected location is 0.5 for the 0.5 quantile).
-# A significant p-value for the splines means the fitted spline deviates from a flat line at the expected location (p-values of intercept and spline are combined via Benjamini & Hochberg adjustment to control the FDR)
-testQuantiles(simulationOutput_model3a)
-
-testDispersion(simulationOutput_model3a, alternative = "less", plot = FALSE) # only under dispersion
-testDispersion(simulationOutput_model3a, alternative = "greater", plot = FALSE) # only over dispersion
-
-simulationOutput_model3b <- simulateResiduals(fittedModel = model3b, plot = T)
-testOutliers(simulationOutput_model3b)
-testDispersion(simulationOutput_model3b)
-testQuantiles(simulationOutput_model3b) 
-
-simulationOutput_model3c <- simulateResiduals(fittedModel = model3c, plot = T)
-testOutliers(simulationOutput_model3c)
-testDispersion(simulationOutput_model3c)
-testQuantiles(simulationOutput_model3c)
-
+png("model3b_smooth.png", width = 2000, height = 1500, res = 300)
+plot(model3b, se=FALSE)
+dev.off()
+#smooth plot
+png("model3c_smooth.png", width = 2000, height = 1500, res = 300)
+plot(model3c, se = FALSE)
+dev.off()
+#smooth plot
+png("model3d_smooth.png", width = 2000, height = 1500, res = 300)
+plot(model3d, se=FALSE)
+dev.off()
 
 
 sessionInfo(package = NULL)
