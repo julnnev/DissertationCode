@@ -262,7 +262,6 @@ glm_model2a_aic <- glm_model2a$aic
 
 
 
-
 glm_model2b <- glm(CPAH ~ TR +  Electricity_main_heating  + Photocopying
                    + Summer+ Open_plan  + Laminated_floor + Aerosol_use + Air_freshner +
                      Redecoration + New + stqhmephc + stqhmeik  + suburban + IG  + WM  + recent_carpet_or_lino +   + Car_in_garage + Use_Bus + Walk_busy_road  + Petrol_car_garage + 
@@ -556,6 +555,8 @@ model3b <- gam(CPAH ~ TR +  Electricity_main_heating  + Photocopying
                + Distance_PetrolStation  + Time_travelling + s(BTEX) + Use_gas_cooker_wekend + Time_cooking + whichfloorisflatlocated+ New_Carpet
                , data=train_set, family=gaussian(link=log), method="REML", select=TRUE )
 
+
+
 summary(model3b)
 coef(model3b)
 set.seed(123)
@@ -565,6 +566,17 @@ model3b_aic <- AIC(model3b)
 concurvity(model3b)
 concurvity(model3b, full=FALSE)
 
+glm_model3b <- gam(CPAH ~ TR +  Electricity_main_heating  + Photocopying
+                   + Summer+ Open_plan  + Laminated_floor + Aerosol_use + Air_freshner +
+                     Redecoration + New + stqhmephc + stqhmeik  + suburban + IG  + WM  + recent_carpet_or_lino + Car_in_garage + Use_Bus + Walk_busy_road  + Petrol_car_garage + 
+                     Not_Connected   + SUM_Additional_Heating + Sometimes_cooker_hood + ETS + ETS_home + rural
+                   + Distance_PetrolStation  + Time_travelling + BTEX + Use_gas_cooker_wekend + Time_cooking + whichfloorisflatlocated+ New_Carpet
+                   , data=train_set, family=gaussian(link=log), method="REML", select=TRUE)
+
+summary(glm_model3b)
+gam.check(glm_model3b)
+model3b_devexpl <- summary.gam(glm_model3b)$dev.expl
+model3b_aic <- AIC(glm_model3b)
 
 
 model3c <- gam(CPAH ~ s(VOC) + FL + urban  + New_Carpet   
@@ -773,7 +785,7 @@ rmse_parsimonous3a <- sqrt(mean((test_set$CPAH - predictedpar3a)^2))
 
 #  model 3b  parsimonous
 model3bpar <- gam(CPAH ~ Summer   + Aerosol_use  + Redecoration + WM  + recent_carpet_or_lino     + Petrol_car_garage 
-                  + Sometimes_cooker_hood + ETS      + s(BTEX) + Use_gas_cooker_wekend  
+                  + Sometimes_cooker_hood + ETS      + BTEX + Use_gas_cooker_wekend  
                   , data=train_set, family=gaussian(link=log), method="REML", select=TRUE )
 
 summary(model3bpar)
