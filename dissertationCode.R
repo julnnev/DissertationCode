@@ -7,7 +7,6 @@ library(moments)
 library(lmtest)
 library(MASS)
 library(glmtoolbox)
-library(DHARMa)
 
 data <- read_excel("~")
 
@@ -501,7 +500,6 @@ model2d <- gam(CPAH ~ s(Total_VOC) + FL + urban  + New_Carpet
                  Redecoration + New + stqhmephc + stqhmeik  + suburban + IG  + WM  + recent_carpet_or_lino + Car_in_garage + Use_Bus + Walk_busy_road  + Petrol_car_garage + 
                  Not_Connected   + SUM_Additional_Heating + Sometimes_cooker_hood + Time_cooking + Use_gas_cooker, data=train_set, method="REML", select=TRUE)
 summary(model2d)
-simulationOutput_model2d <- simulateResiduals(fittedModel = model2d, plot = T, refit = F)
 coef(model2d)
 model2d$sp
 set.seed(123)
@@ -601,7 +599,6 @@ model3d <- gam(CPAH ~ s(Total_VOC) + FL + urban  + New_Carpet
                  Not_Connected   + SUM_Additional_Heating + Sometimes_cooker_hood + Time_cooking + Use_gas_cooker, data=train_set,family=gaussian(link=log), method="REML", select=TRUE)
 
 summary(model3d)
-simulationOutput_model3d <- simulateResiduals(fittedModel = model3d, plot = T, refit = F)
 coef(model3d)
 model3d$sp
 set.seed(123)
